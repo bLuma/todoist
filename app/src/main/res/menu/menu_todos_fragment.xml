@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" >
+
+    <item android:title="@string/notification"
+        android:id="@+id/notification"
+        android:icon="@android:drawable/ic_menu_agenda"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/share"
+        app:showAsAction="ifRoom"
+        android:icon="@android:drawable/ic_menu_share"
+        android:title="@string/share"
+        app:actionProviderClass=
+            "android.support.v7.widget.ShareActionProvider" />
+
+
+    <item android:title="@string/delete"
+        android:id="@+id/delete"
+        android:icon="@android:drawable/ic_menu_delete"
+        app:showAsAction="never" />
+</menu>

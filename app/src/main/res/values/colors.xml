@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="main_accent">#4d90fe</color>
+    <color name="main_accent_pressed">#b04d90fe</color>
+
+    <color name="activeList">#a04d90fe</color>
+    <!-- <color name="inactiveList">#00ffffff</color> -->
+
+</resources>
