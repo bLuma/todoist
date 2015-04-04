@@ -6,6 +6,9 @@ import android.os.Bundle;
 import android.view.Menu;
 
 
+/**
+ * NewListActivity - adding new list (mobile layout)
+ */
 public class NewListActivity extends ActionBarActivity implements TodosListFragment.TodosListFragmentCallbacks {
 
     @Override

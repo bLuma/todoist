@@ -36,7 +36,7 @@ import java.util.List;
 import cz.divisak.todoist.todoist.data.TodosContract;
 
 /**
- * Todos fragment.
+ * Todo entry listing fragment.
  */
 public class TodosFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
@@ -61,6 +61,9 @@ public class TodosFragment extends Fragment implements LoaderManager.LoaderCallb
     private static final int IDX_TITLE = 1;
     private static final int IDX_END_DATE = 2;
 
+    /**
+     * Callbacks for activities that reacts to TodosFragment.
+     */
     public interface TodosFragmentCallbacks {
         public void onNewTodos(long id);
     }

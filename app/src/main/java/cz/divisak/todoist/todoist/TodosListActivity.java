@@ -9,7 +9,9 @@ import android.view.View;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
 
-
+/**
+ * TodosListActivity - for showing of todo lists (mobile/tablet layout).
+ */
 public class TodosListActivity extends ActionBarActivity implements TodosListFragment.TodosListFragmentCallbacks, TodosFragment.TodosFragmentCallbacks {
 
     public static final String EXTRA_SELECTED_LIST = "selectedList";

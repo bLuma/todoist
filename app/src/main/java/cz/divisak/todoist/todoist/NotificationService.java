@@ -30,7 +30,6 @@ public class NotificationService extends IntentService {
     public static final String EXTRA_TODO_ID = "todoId";
     public static final String EXTRA_FROM_WEAR = "fromWear";
 
-
     private static final String[] projection = {
             TodosContract.TodoEntry._ID,
             TodosContract.TodoEntry.COLUMN_TITLE,

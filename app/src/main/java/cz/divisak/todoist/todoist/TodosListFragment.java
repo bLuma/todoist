@@ -19,7 +19,7 @@ import android.widget.TextView;
 import cz.divisak.todoist.todoist.data.TodosContract;
 
 /**
- * Todos list fragment.
+ * Todo list fragment.
  */
 public class TodosListFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
@@ -44,6 +44,9 @@ public class TodosListFragment extends Fragment implements LoaderManager.LoaderC
     private static final int IDX_TITLE = 1;
     private static final int IDX_START_DATE = 2;
 
+    /**
+     * Callbacks for activities that reacts to TodosListFragment.
+     */
     public interface TodosListFragmentCallbacks {
         public boolean isTabletLayout();
 

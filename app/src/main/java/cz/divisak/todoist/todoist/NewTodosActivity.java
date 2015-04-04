@@ -6,6 +6,9 @@ import android.os.Bundle;
 import android.view.Menu;
 
 
+/**
+ * NewTodosActivity - adding new todo entry (mobile layout)
+ */
 public class NewTodosActivity extends ActionBarActivity implements TodosListFragment.TodosListFragmentCallbacks{
 
     public static final String EXTRA_LIST_ID = "listId";

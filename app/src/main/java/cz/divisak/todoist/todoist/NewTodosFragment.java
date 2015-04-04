@@ -15,7 +15,7 @@ import android.widget.Toast;
 import cz.divisak.todoist.todoist.data.TodosContract;
 
 /**
- * New todos fragment
+ * New todo entry fragment
  */
 public class NewTodosFragment extends Fragment implements View.OnClickListener{
 

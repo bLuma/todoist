@@ -8,6 +8,9 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 
+/**
+ * Todos content provider
+ */
 public class TodosProvider extends ContentProvider {
 
     private static final UriMatcher uriMatcher = buidlUriMatcher();

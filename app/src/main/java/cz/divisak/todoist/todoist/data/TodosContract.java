@@ -17,6 +17,9 @@ public class TodosContract {
     public static final String PATH_LIST = "list";
     public static final String PATH_TODO = "todo";
 
+    /**
+     * Todo list entry.
+     */
     public static final class ListEntry implements BaseColumns {
 
         public static final Uri CONTENT_URI = BASE_CONTENT_URI.buildUpon().appendPath(PATH_LIST).build();
@@ -39,6 +42,9 @@ public class TodosContract {
 
     }
 
+    /**
+     * Todo entry (in specified list)
+     */
     public static final class TodoEntry implements BaseColumns {
 
         public static final Uri CONTENT_URI = BASE_CONTENT_URI.buildUpon().appendPath(PATH_TODO).build();
@@ -48,6 +54,9 @@ public class TodosContract {
 
         public static final String TABLE_NAME = "todo";
 
+        /**
+         * Foreign key to list table
+         */
         public static final String COLUMN_LIST = "list";
         //public static final String COLUMN_ORDER = "orderer";
         public static final String COLUMN_TITLE = "title";

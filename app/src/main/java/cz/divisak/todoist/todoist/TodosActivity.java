@@ -5,7 +5,9 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 
-
+/**
+ * TodosActivity - for showing of todo entries (mobile layout)
+ */
 public class TodosActivity extends ActionBarActivity implements TodosFragment.TodosFragmentCallbacks, TodosListFragment.TodosListFragmentCallbacks {
 
     public static final String EXTRA_LIST_ID = "listId";
