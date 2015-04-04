@@ -38,9 +38,10 @@ public class NewTodosActivity extends ActionBarActivity implements TodosListFrag
 
     @Override
     public boolean onSelectedList(long id) {
-        Intent i = new Intent(this, TodosListActivity.class);
-        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        i.putExtra(TodosListActivity.EXTRA_SELECTED_LIST, id);
+        Intent i = new Intent(this, TodosActivity.class);
+        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        i.putExtra(TodosActivity.EXTRA_LIST_ID, id);
+
         startActivity(i);
 
         return true;

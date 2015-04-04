@@ -107,12 +107,22 @@ public class TodosListFragment extends Fragment implements LoaderManager.LoaderC
                 return;
             }
 
-            if (!cursor.moveToFirst())
+            if (!cursor.moveToFirst()) {
+                if (selectedList == 0) {
+                    selectedList = -2;
+                    getActivity().findViewById(R.id.list_fragment).post(new Runnable() {
+                        @Override
+                        public void run() {
+                            ((TodosListFragmentCallbacks)getActivity()).onNewList();
+                        }
+                    });
+                }
                 return;
+            }
 
             final long listId = cursor.getLong(IDX_ID);
 
-            getActivity().findViewById(R.id.detail_fragment).post(new Runnable() {
+            getActivity().findViewById(R.id.list_fragment).post(new Runnable() {
                 @Override
                 public void run() {
                     // got selected list from before (device rotation,...)?

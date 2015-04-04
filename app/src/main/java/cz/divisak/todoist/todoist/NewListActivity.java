@@ -36,6 +36,7 @@ public class NewListActivity extends ActionBarActivity implements TodosListFragm
         Intent i = new Intent(this, TodosListActivity.class);
         i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         i.putExtra(TodosListActivity.EXTRA_SELECTED_LIST, id);
+
         startActivity(i);
         return true;
     }

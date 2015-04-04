@@ -102,6 +102,8 @@ public class TodosListActivity extends ActionBarActivity implements TodosListFra
         selectedList = -1;
 
         if (isTabletLayout) {
+            fabNewList.setVisibility(View.GONE);
+
             getSupportFragmentManager()
                     .beginTransaction()
                     .replace(R.id.detail_fragment, new NewListFragment(), DETAIL_FRAGMENT_TAG)
@@ -115,7 +117,7 @@ public class TodosListActivity extends ActionBarActivity implements TodosListFra
     @Override
     public boolean onSelectedList(long id) {
         //Log.d("Act", "Selected: " + id);
-        if (isTabletLayout && fabNewList.getVisibility() == View.GONE) {
+        if (isTabletLayout) {
             fabNewList.setVisibility(View.VISIBLE);
         }
 
