@@ -7,13 +7,19 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.ShareActionProvider;
+import android.util.Log;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -25,15 +31,20 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.CursorAdapter;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
 import cz.divisak.todoist.todoist.data.TodosContract;
+
+import static android.view.View.MeasureSpec;
 
 /**
  * Todo entry listing fragment.
@@ -41,6 +52,8 @@ import cz.divisak.todoist.todoist.data.TodosContract;
 public class TodosFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
     public static final String ARGUMENT_LIST_ID = TodosActivity.EXTRA_LIST_ID;
+
+    public static final String SCREENSHOT_FILENAME = "/screenshot.png";
 
     private CursorAdapter adapter;
     private ActionMode actionMode;
@@ -101,7 +114,7 @@ public class TodosFragment extends Fragment implements LoaderManager.LoaderCallb
             return;
         }
 
-        StringBuilder builder = new StringBuilder();
+        /*StringBuilder builder = new StringBuilder();
         Cursor cursor = adapter.getCursor();
         for (int i = 0; i < adapter.getCount(); i++) {
             cursor.moveToPosition(i);
@@ -118,9 +131,90 @@ public class TodosFragment extends Fragment implements LoaderManager.LoaderCallb
 
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("text/plain");
-        intent.putExtra(Intent.EXTRA_TEXT, string);
+        intent.putExtra(Intent.EXTRA_TEXT, string);*/
+
+        Uri uri = makeScreenshot(false);
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("image/*");
+        intent.putExtra(Intent.EXTRA_STREAM, uri);
 
         shareActionProvider.setShareIntent(intent);
+        shareActionProvider.setOnShareTargetSelectedListener(new ShareActionProvider.OnShareTargetSelectedListener() {
+            @Override
+            public boolean onShareTargetSelected(ShareActionProvider shareActionProvider, Intent intent) {
+                makeScreenshot(true);
+                return false;
+            }
+        });
+    }
+
+    /*
+    Draw all listview items to bitmap
+    http://stackoverflow.com/questions/12742343/android-get-screenshot-of-all-listview-items
+     */
+    private Bitmap getListViewBitmap(ListView listview) {
+        ListAdapter adapter = listview.getAdapter();
+        int itemsCount = adapter.getCount();
+        int allItemsHeight = 0;
+        List<Bitmap> bitmaps = new ArrayList<Bitmap>();
+
+        for (int i = 0; i < itemsCount; i++) {
+
+            View childView = adapter.getView(i, null, listview);
+            childView.measure(MeasureSpec.makeMeasureSpec(listview.getWidth(), MeasureSpec.EXACTLY),
+                    MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
+
+            childView.layout(0, 0, childView.getMeasuredWidth(), childView.getMeasuredHeight());
+            childView.setDrawingCacheEnabled(true);
+            childView.buildDrawingCache();
+            bitmaps.add(childView.getDrawingCache());
+            allItemsHeight += childView.getMeasuredHeight();
+        }
+
+        Bitmap bigBitmap = Bitmap.createBitmap(listview.getMeasuredWidth(), allItemsHeight, Bitmap.Config.ARGB_8888);
+        Canvas bigCanvas = new Canvas(bigBitmap);
+
+        Paint paint = new Paint();
+        int iHeight = 0;
+
+        for (int i = 0; i < bitmaps.size(); i++) {
+            Bitmap bmp = bitmaps.get(i);
+            bigCanvas.drawBitmap(bmp, 0, iHeight, paint);
+            iHeight += bmp.getHeight();
+
+            bmp.recycle();
+            bmp = null;
+        }
+
+        return bigBitmap;
+    }
+
+    /**
+     * Create screenshot and save it to external storage.
+     *
+     * @param really if true, then draws bitmap to file. If false then only returns file uri.
+     * @return screenshot uri for share intent
+     */
+    private Uri makeScreenshot(boolean really)
+    {
+        Bitmap bitmap = really ? getListViewBitmap(list) : null;
+        File file = new File(Environment.getExternalStorageDirectory() + SCREENSHOT_FILENAME);
+
+        if (bitmap == null) {
+            return Uri.fromFile(file);
+        }
+
+        try {
+            file.createNewFile();
+            FileOutputStream outputStream = new FileOutputStream(file);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
+            outputStream.close();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return Uri.fromFile(file);
     }
 
     private void launchNotification() {
@@ -275,6 +369,8 @@ public class TodosFragment extends Fragment implements LoaderManager.LoaderCallb
                 actionMode = null;
             }
         });
+
+        list.setDrawingCacheEnabled(true);
 
         rootView.findViewById(R.id.fab).setOnClickListener(new View.OnClickListener() {
             @Override
